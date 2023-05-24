@@ -173,9 +173,223 @@ class MyClass {
         echo "Ini adalah fungsi gabung string <br>" . PHP_EOL;
         $a="aku";
         $b="adalah";
-        return $a . $b;
+        return concat($a, $b);
     }
     
+    public function fungsi19() {
+        echo "Ini adalah fungsi membalikan karakter <br>" . PHP_EOL;
+        $a="AKU";
+        return strrev($a);
+    }
+
+    public function fungsi20() {
+        echo "Ini adalah fungsi memotong bagian dari string berdasarkan posisi dan panjangnya <br>" . PHP_EOL;
+        $a="AadalahKU";
+        $start=3;
+        $length=7;
+        return substr($a, $start, $length;
+    }
+
+    public function fungsi21() {
+        echo "Ini adalah fungsi menghapus karakter kosong diawal dan akhir <br>" . PHP_EOL;
+        $a=" AKU ";
+        return trim($a);
+    }
+
+    public function fungsi22() {
+        echo "Ini adalah fungsi panjang <br>" . PHP_EOL;
+        $a = true;
+        $b = true;
+        $c = false;
+        $d = true;
+        $e = true;
+        if ($a && $b) {
+            $result = $c || $d;
+            if ($result) {
+                $x = $e && $d;
+                $y = $a || $c;
+                
+                if ($x || $y) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            $result = $b && $c;
+              
+            if ($result) {
+                $x = $d || $e;
+                
+                if ($x) {
+                  return true;
+                } else {
+                  return false;
+                }
+            } else {
+                $y = $a || $d;
+                
+                if ($y && $e) {
+                  return true;
+                } else {
+                  return false;
+                }
+            }
+        }
+        
+        $hasil = panjangFungsiLogika($a, $b, $c, $d, $e);
+        echo $hasil ? "True" : "False";
+    }
+
+    public function fungsi23() {
+        echo "Ini adalah fungsi isPalindrome <br>" . PHP_EOL;
+
+        $a = "A man, a plan, a canal, Panama";
+
+        $str = str_replace(' ', '', strtolower($a));
+  
+        $length = strlen($str);
+        for ($i = 0; $i < $length / 2; $i++) {
+        if ($str[$i] !== $str[$length - $i - 1]) {
+            return false;
+        }
+
+        if (isPalindrome($string)) {
+            echo "$string adalah palindrom.";
+        } else {
+            echo "$string bukan palindrom.";
+        }
+        }
+  
+        return true;
+    }
+
+    public function fungsi24() {
+        echo "Ini adalah fungsi count words <br>" . PHP_EOL;
+
+        $a = "Hari ini adalah hari yang cerah";
+        $sentence = trim($a);
+  
+        // Menghitung jumlah kata menggunakan fungsi explode
+        $words = explode(' ', $sentence);
+        $wordCount = count($words);
+
+        $b = echo "Jumlah kata dalam kalimat '$a' adalah $wordCount.";
+    
+        return $b;
+    }
+
+    public function fungsi25() {
+        echo "Ini adalah fungsi fibonanci <br>" . PHP_EOL;
+        $a=10;
+        $sequence = array(0, 1);
+  
+        for ($i = 2; $i < $a; $i++) {
+            $nextNumber = $sequence[$i - 1] + $sequence[$i - 2];
+            $sequence[] = $nextNumber;
+        }
+  
+    return $sequence;
+    }
+
+    public function fungsi26() {
+        echo "Ini adalah fungsi logika <br>" . PHP_EOL;
+
+        $a = true;
+        $b = false;
+        $c = true;
+        $d = false;
+        $e = true;
+        
+        $logika1 = ($a && $b) || ($c && $d);
+        
+        $logika2 = ($a || $b) && ($c || $d);
+        
+        $logika3 = ($a && $b) && !($c || $d);
+        
+        $logika4 = !($a || $b) || ($c && $d);
+        
+        $logika5 = $a || ($b && ($c || $d));
+        
+        $logika6 = $a && ($b || ($c && $d));
+        
+        $logika7 = $a && (!$b || (!$c && $d));
+        
+        $logika8 = ($a || !$b) && ((!$c && $d) || ($e || $a));
+        
+        echo "Hasil Logika 1: " . ($logika1 ? 'true' : 'false') . "\n" .
+         "Hasil Logika 2: " . ($logika2 ? 'true' : 'false') . "\n" .
+         "Hasil Logika 3: " . ($logika3 ? 'true' : 'false') . "\n" .
+         "Hasil Logika 4: " . ($logika4 ? 'true' : 'false') . "\n" .
+         "Hasil Logika 5: " . ($logika5 ? 'true' : 'false') . "\n" .
+         "Hasil Logika 6: " . ($logika6 ? 'true' : 'false') . "\n" .
+         "Hasil Logika 7: " . ($logika7 ? 'true' : 'false') . "\n" .
+         "Hasil Logika 8: " . ($logika8 ? 'true' : 'false') . "\n";
+
+    }
+
+    public function fungsi17() {
+        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
+        $a="AKU";
+        return strlen($a);
+    }
+
+    public function fungsi17() {
+        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
+        $a="AKU";
+        return strlen($a);
+    }
+
+    public function fungsi17() {
+        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
+        $a="AKU";
+        return strlen($a);
+    }
+
+    public function fungsi17() {
+        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
+        $a="AKU";
+        return strlen($a);
+    }
+
+    public function fungsi17() {
+        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
+        $a="AKU";
+        return strlen($a);
+    }
+
+    public function fungsi17() {
+        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
+        $a="AKU";
+        return strlen($a);
+    }
+
+    public function fungsi17() {
+        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
+        $a="AKU";
+        return strlen($a);
+    }
+
+    public function fungsi17() {
+        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
+        $a="AKU";
+        return strlen($a);
+    }
+
+    public function fungsi17() {
+        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
+        $a="AKU";
+        return strlen($a);
+    }
+
+    public function fungsi17() {
+        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
+        $a="AKU";
+        return strlen($a);
+    }
+
     // ...
 
     public function fungsi1991() {
@@ -219,6 +433,14 @@ $obj->fungsi15();
 $obj->fungsi16();
 $obj->fungsi17();
 $obj->fungsi18();
+$obj->fungsi19();
+$obj->fungsi20();
+$obj->fungsi21();
+$obj->fungsi22();
+$obj->fungsi23();
+$obj->fungsi24();
+$obj->fungsi25();
+$obj->fungsi26();
 
 // ...
 
