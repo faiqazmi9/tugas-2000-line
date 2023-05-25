@@ -1,451 +1,2658 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
 
-class MyClass {
-    public function fungsi1() {
-        echo "Ini adalah fungsi Membuat Segitiga arah atas <br>" . PHP_EOL;
-        $star=10;
-        for( $a=$star;$a>0;$a--){
-        for($i=1; $i<=$a; $i++){
-            echo "&nbsp";
+<head>
+    <title>Aplikasi Sederhana dengan Validasi</title>
+    <style>
+        .error {
+            color: red;
         }
-        for($a1=$star;$a1>=$a;$a1--){
-            echo"*";
-        }
-        echo"<br>";
-        }
-        
-    }
+    </style>
+</head>
 
-    public function fungsi2() {
-        echo "Ini adalah fungsi Membuat Segitiga arah atas sisi kiri <br>" . PHP_EOL;
-        $star=10;
-        for($a=$star;$a>0;$a--){
-        for($i=1; $i<=$a; $i++){
-            echo " &nbsp";
-        }
-        for($a1=$star;$a1>=$a;$a1--){
-            echo"*";
-        }
-        echo"<br>";
-        }
-    }
-
-    // ...
-
-    public function fungsi3() {
-        echo "Ini adalah fungsi Membuat Segitiga sama kaki <br>" . PHP_EOL;
-        $tinggi=10;
-        for ($baris = 1; $baris <= $tinggi; $baris++) {
-            for ($kolom = 1; $kolom <= $tinggi - $baris; $kolom++) {
-                echo "&nbsp;&nbsp;";
+<body>
+    <h1>Pendaftaran Pengguna Baru</h1>
+    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <label for="form_type">Jenis Form:</label>
+        <select name="form_type" id="form_type" required>
+            <option value="">Pilih Jenis Form</option>
+            <?php
+            for ($i = 1; $i <= 50; $i++) {
+                echo "<option value='" . $i . "'>Form " . $i . "</option>";
             }
-            for ($kolom = 1; $kolom <= 2 * $baris - 1; $kolom++) {
-                echo "*";
+            ?>
+        </select>
+        <br><br>
+        <label for="name">Nama:</label>
+        <input type="text" name="name" id="name" required>
+        <br><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+        <br><br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required>
+        <br><br>
+        <label for="confirm_password">Konfirmasi Password:</label>
+        <input type="password" name="confirm_password" id="confirm_password" required>
+        <br><br>
+        <label for="phone">Nomor HP:</label>
+        <input type="text" name="phone" id="phone" required>
+        <br><br>
+        <label for="address">Profinsi</label>
+        <textarea name="province" id="province" required></textarea>
+        <br><br>
+        <label for="address">Kota</label>
+        <textarea name="city" id="city" required></textarea>
+        <br><br>
+        <label for="address">Kecamatan</label>
+        <textarea name="district" id="district" required></textarea>
+        <br><br>
+        <label for="address">Jalan</label>
+        <textarea name="street" id="street" required></textarea>
+        <br><br>
+        <label for="address">Nomor Rumah</label>
+        <textarea name="house_number" id="house_number" required></textarea>
+        <br><br>
+        <label for="gender">Jenis Kelamin:</label>
+        <select name="gender" id="gender" required>
+            <option value="">Pilih Jenis Kelamin</option>
+            <option value="laki-laki">Laki-laki</option>
+            <option value="perempuan">Perempuan</option>
+        </select>
+        <br><br>
+        <input type="submit" value="Daftar">
+    </form>
+
+    <?php
+    class FormValidator
+    {
+        public static function validateForm($form_type)
+        {
+            if (empty($form_type)) {
+                return "Jenis Form harus diisi.";
             }
-            echo "<br>";
+            return "";
+        }
+
+        public static function validateName($name)
+        {
+            if (empty($name)) {
+                return "Nama harus diisi.";
+            }
+            return "";
+        }
+
+        public static function validateEmail($email)
+        {
+            if (empty($email)) {
+                return "Email harus diisi.";
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return "Email tidak valid.";
+            }
+            return "";
+        }
+
+        public static function validatePassword($password)
+        {
+            if (empty($password)) {
+                return "Password harus diisi.";
+            } elseif (strlen($password) < 6) {
+                return "Password harus memiliki setidaknya 6 karakter.";
+            }
+            return "";
+        }
+
+        public static function validateConfirmPassword($password, $confirm_password)
+        {
+            if (empty($confirm_password)) {
+                return "Konfirmasi password harus diisi.";
+            } elseif ($password !== $confirm_password) {
+                return "Konfirmasi password tidak sesuai.";
+            }
+            return "";
+        }
+
+        public static function validatePhone($phone)
+        {
+            if (empty($phone)) {
+                return "Nomor HP harus diisi.";
+            } elseif (!preg_match('/^\d{10,12}$/', $phone)) {
+                return "Nomor HP tidak valid. Harap masukkan nomor HP dengan format yang benar.";
+            }
+            return "";
+        }
+
+        public static function validateProvince($province)
+        {
+            if (empty($province)) {
+                return "Provinsi harus diisi.";
+            }
+            return "";
+        }
+
+        public static function validateCity($city)
+        {
+            if (empty($city)) {
+                return "Kota harus diisi.";
+            }
+            return "";
+        }
+
+        public static function validateDistrict($district)
+        {
+            if (empty($district)) {
+                return "Kecamatan harus diisi.";
+            }
+            return "";
+        }
+
+        public static function validateStreet($street)
+        {
+            if (empty($street)) {
+                return "Jalan harus diisi.";
+            }
+            return "";
+        }
+
+        public static function validateHouseNumber($house_number)
+        {
+            if (empty($house_number)) {
+                return "Nomor Rumah harus diisi.";
+            }
+            return "";
+        }
+
+        public static function validateGender($gender)
+        {
+            if (empty($gender)) {
+                return "Jenis kelamin harus dipilih.";
+            }
+            return "";
         }
     }
 
-    public function fungsi4() {
-        echo "Ini adalah fungsi Membuat kotak <br>" . PHP_EOL;
-        $tinggi=10;
-        $lebar=10;
-        for ($baris = 1; $baris <= $tinggi; $baris++) {
-            for ($kolom = 1; $kolom <= $lebar; $kolom++) {
-                echo "*";
-            }
-            echo "<br>";
-        }
-    }
-
-    public function fungsi5() {
-        echo "Ini adalah fungsi Membuat persegi panjang <br>" . PHP_EOL;
-        $tinggi=20;
-        $lebar=10;
-        for ($baris = 1; $baris <= $tinggi; $baris++) {
-            for ($kolom = 1; $kolom <= $lebar; $kolom++) {
-                echo "*";
-            }
-            echo "<br>";
-        }
-    }
-
-    public function fungsi6() {
-        echo "Ini adalah fungsi Membuat Segitiga arah atas sisi kanan <br>" . PHP_EOL;
-        $tinggi=10;
-        for ($baris = 1; $baris <= $tinggi; $baris++) {
-            for ($spasi = 1; $spasi <= $tinggi - $baris; $spasi++) {
-                echo "&nbsp;&nbsp;";
-            }
-            for ($bintang = 1; $bintang <= $baris; $bintang++) {
-                echo "*";
-            }
-            echo "<br>";
-        }
-    }
-
-    public function fungsi7() {
-        echo "Ini adalah fungsi Membuat Segitiga arah bawah sisi kanan <br>" . PHP_EOL;
-        $tinggi=10;
-        for ($baris = $tinggi; $baris >= 1; $baris--) {
-            for ($spasi = 1; $spasi <= $tinggi - $baris; $spasi++) {
-                echo "&nbsp;&nbsp;";
-            }
-            for ($bintang = 1; $bintang <= $baris; $bintang++) {
-                echo "*";
-            }
-            echo "<br>";
-        }
-    }
-
-    public function fungsi8() {
-        echo "Ini adalah fungsi Membuat Segitiga arah bawah sisi kiri <br>" . PHP_EOL;
-        $tinggi=10;
-        for ($baris = $tinggi; $baris >= 1; $baris--) {
-            for ($spasi = 1; $spasi <= $tinggi - $baris; $spasi++) {
-                echo "&nbsp;&nbsp;";
-            }
-            for ($bintang = 1; $bintang <= $baris; $bintang++) {
-                echo "*";
-            }
-            echo "<br>";
-        }
-    }
-
-    public function fungsi9() {
-        echo "Ini adalah fungsi penjumlahan <br>" . PHP_EOL;
-        $a=10;
-        $b=10;
-        return $a + $b;
-    }
-
-    public function fungsi10() {
-        echo "Ini adalah fungsi pengurangan <br>" . PHP_EOL;
-        $a=10;
-        $b=10;
-        return $a - $b;
-    }
-
-    public function fungsi11() {
-        echo "Ini adalah fungsi Luas Persegi <br>" . PHP_EOL;
-        $sisi=10;
-        return $sisi * $sisi;
-                
-    }
-
-    public function fungsi12() {
-        echo "Ini adalah fungsi keliling persegi <br>" . PHP_EOL;
-        $a=10;
-        return 4 * $a;
-    }
-
-    public function fungsi3() {
-        echo "Ini adalah fungsi lias lingkaran <br>" . PHP_EOL;
-        $a=10;
-        return pi() * $a * $a;
-    }
-
-    public function fungsi14() {
-        echo "Ini adalah fungsi keliling lingkaran <br>" . PHP_EOL;
-        $a=10;
-        return 2 * pi() * $a;
-    }
-
-    public function fungsi15() {
-        echo "Ini adalah fungsi uppercase <br>" . PHP_EOL;
-        $a="aku";
-        return strtoupper($a);
-    }
-
-    public function fungsi16() {
-        echo "Ini adalah fungsi lowercase <br>" . PHP_EOL;
-        $a="AKU";
-        return strtolower($a);
-    }
-
-    public function fungsi17() {
-        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
-        $a="AKU";
-        return strlen($a);
-    }
-
-    public function fungsi18() {
-        echo "Ini adalah fungsi gabung string <br>" . PHP_EOL;
-        $a="aku";
-        $b="adalah";
-        return concat($a, $b);
-    }
+    define('SUCCESS', '<h2>Pendaftaran Berhasil!</h2>');
+    define('FORMTYPE', '<p>Jenis Form: "');
+    define('NAME', '<p>Nama: ');
+    define('EMAIL', '<p>Email: ');
+    define('PHONE', '<p>Nomor HP: ');
+    define('PROVINCE', '<p>Provinsi: ');
+    define('CITY', '<p>Kota: ');
+    define('DISTRICT', '<p>Kecamatan: ');
+    define('STREET', '<p>Jalan: ');
+    define('HOUSENUMBER', '<p>Nomor Rumah: ');
+    define('GENDER', '<p>Jenis Kelamin: ');
     
-    public function fungsi19() {
-        echo "Ini adalah fungsi membalikan karakter <br>" . PHP_EOL;
-        $a="AKU";
-        return strrev($a);
-    }
 
-    public function fungsi20() {
-        echo "Ini adalah fungsi memotong bagian dari string berdasarkan posisi dan panjangnya <br>" . PHP_EOL;
-        $a="AadalahKU";
-        $start=3;
-        $length=7;
-        return substr($a, $start, $length;
-    }
+    // Cek apakah form telah disubmit
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if ($_POST["form_type"] == 1) {
+            echo "<h4>menggunakan mode 1</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
 
-    public function fungsi21() {
-        echo "Ini adalah fungsi menghapus karakter kosong diawal dan akhir <br>" . PHP_EOL;
-        $a=" AKU ";
-        return trim($a);
-    }
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
 
-    public function fungsi22() {
-        echo "Ini adalah fungsi panjang <br>" . PHP_EOL;
-        $a = true;
-        $b = true;
-        $c = false;
-        $d = true;
-        $e = true;
-        if ($a && $b) {
-            $result = $c || $d;
-            if ($result) {
-                $x = $e && $d;
-                $y = $a || $c;
-                
-                if ($x || $y) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
             }
-        } else {
-            $result = $b && $c;
-              
-            if ($result) {
-                $x = $d || $e;
-                
-                if ($x) {
-                  return true;
-                } else {
-                  return false;
-                }
-            } else {
-                $y = $a || $d;
-                
-                if ($y && $e) {
-                  return true;
-                } else {
-                  return false;
-                }
+        } elseif ($_POST["form_type"] == 2) {
+            echo "<h4>menggunakan mode 2</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 3) {
+            echo "<h4>menggunakan mode 3</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 4) {
+            echo "<h4>menggunakan mode 4</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 5) {
+            echo "<h4>menggunakan mode 5</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 6) {
+            echo "<h4>menggunakan mode 6</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 7) {
+            echo "<h4>menggunakan mode 7</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 8) {
+            echo "<h4>menggunakan mode 8</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 9) {
+            echo "<h4>menggunakan mode 9</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 10) {
+            echo "<h4>menggunakan mode 10</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 11) {
+            echo "<h4>menggunakan mode 11</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 12) {
+            echo "<h4>menggunakan mode 12</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 13) {
+            echo "<h4>menggunakan mode 13</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 14) {
+            echo "<h4>menggunakan mode 14</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 15) {
+            echo "<h4>menggunakan mode 15</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 16) {
+            echo "<h4>menggunakan mode 16</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 17) {
+            echo "<h4>menggunakan mode 17</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 18) {
+            echo "<h4>menggunakan mode 18</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 19) {
+            echo "<h4>menggunakan mode 19</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 20) {
+            echo "<h4>menggunakan mode 20</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 21) {
+            echo "<h4>menggunakan mode 21</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 22) {
+            echo "<h4>menggunakan mode 22</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 23) {
+            echo "<h4>menggunakan mode 23</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 24) {
+            echo "<h4>menggunakan mode 24</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 25) {
+            echo "<h4>menggunakan mode 25</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 26) {
+            echo "<h4>menggunakan mode 26</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 27) {
+            echo "<h4>menggunakan mode 27</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 28) {
+            echo "<h4>menggunakan mode 28</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 29) {
+            echo "<h4>menggunakan mode 29</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 30) {
+            echo "<h4>menggunakan mode 30</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 31) {
+            echo "<h4>menggunakan mode 31</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 32) {
+            echo "<h4>menggunakan mode 32</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 33) {
+            echo "<h4>menggunakan mode 33</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 34) {
+            echo "<h4>menggunakan mode 34</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 35) {
+            echo "<h4>menggunakan mode 35</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 36) {
+            echo "<h4>menggunakan mode 36</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 37) {
+            echo "<h4>menggunakan mode 37</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 38) {
+            echo "<h4>menggunakan mode 38</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 39) {
+            echo "<h4>menggunakan mode 39</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 40) {
+            echo "<h4>menggunakan mode 40</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 41) {
+            echo "<h4>menggunakan mode 41</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 42) {
+            echo "<h4>menggunakan mode 42</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 43) {
+            echo "<h4>menggunakan mode 43</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 44) {
+            echo "<h4>menggunakan mode 44</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 45) {
+            echo "<h4>menggunakan mode 45</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 46) {
+            echo "<h4>menggunakan mode 46</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 47) {
+            echo "<h4>menggunakan mode 47</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 48) {
+            echo "<h4>menggunakan mode 48</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 49) {
+            echo "<h4>menggunakan mode 49</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
+            }
+        } elseif ($_POST["form_type"] == 50) {
+            echo "<h4>menggunakan mode 50</h4>";
+            $formType = $_POST['form_type'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $street = $_POST['street'];
+            $house_number = $_POST['house_number'];
+            $gender = $_POST['gender'];
+
+            $formError = FormValidator::validateForm($form_type);
+            $nameError = FormValidator::validateName($name);
+            $emailError = FormValidator::validateEmail($email);
+            $passwordError = FormValidator::validatePassword($password);
+            $confirmPasswordError = FormValidator::validateConfirmPassword($password, $confirm_password);
+            $phoneError = FormValidator::validatePhone($phone);
+            $provinceError = FormValidator::validateProvince($province);
+            $cityError = FormValidator::validateCity($city);
+            $districtError = FormValidator::validateDistrict($district);
+            $streetError = FormValidator::validateStreet($street);
+            $houseNumberError = FormValidator::validateHouseNumber($house_number);
+            $genderError = FormValidator::validateGender($gender);
+
+            // Jika tidak ada error, proses pendaftaran
+            if (
+                empty($formError) && empty($nameError) && empty($emailError) && empty($passwordError)
+                && empty($confirmPasswordError) && empty($phoneError) && empty($provinceError)
+                && empty($cityError) && empty($districtError) && empty($streetError)
+                && empty($houseNumberError) && empty($genderError)
+            ) {
+                // Lakukan proses pendaftaran atau penyimpanan data ke database
+                echo SUCCESS;
+                echo FORMTYPE . $form . "</p>";
+                echo NAME . $name . "</p>";
+                echo EMAIL . $email . "</p>";
+                echo PHONE . $phone . "</p>";
+                echo PROVINCE . $province . "</p>";
+                echo CITY . $city . "</p>";
+                echo DISTRICT . $district . "</p>";
+                echo STREET . $street . "</p>";
+                echo HOUSENUMBER . $house_number . "</p>";
+                echo GENDER . $gender . "</p>";
+                // ...
             }
         }
-        
-        $hasil = panjangFungsiLogika($a, $b, $c, $d, $e);
-        echo $hasil ? "True" : "False";
     }
+    ?>
+    <div class="error">
+        <?php echo $formError; ?><br>
+        <?php echo $nameError; ?><br>
+        <?php echo $emailError; ?><br>
+        <?php echo $passwordError; ?><br>
+        <?php echo $confirmPasswordError; ?><br>
+        <?php echo $phoneError; ?><br>
+        <?php echo $provinceError; ?><br>
+        <?php echo $cityError; ?><br>
+        <?php echo $districtError; ?><br>
+        <?php echo $street; ?><br>
+        <?php echo $house_number; ?><br>
+        <?php echo $genderError; ?><br>
+    </div>
+</body>
 
-    public function fungsi23() {
-        echo "Ini adalah fungsi isPalindrome <br>" . PHP_EOL;
-
-        $a = "A man, a plan, a canal, Panama";
-
-        $str = str_replace(' ', '', strtolower($a));
-  
-        $length = strlen($str);
-        for ($i = 0; $i < $length / 2; $i++) {
-        if ($str[$i] !== $str[$length - $i - 1]) {
-            return false;
-        }
-
-        if (isPalindrome($string)) {
-            echo "$string adalah palindrom.";
-        } else {
-            echo "$string bukan palindrom.";
-        }
-        }
-  
-        return true;
-    }
-
-    public function fungsi24() {
-        echo "Ini adalah fungsi count words <br>" . PHP_EOL;
-
-        $a = "Hari ini adalah hari yang cerah";
-        $sentence = trim($a);
-  
-        // Menghitung jumlah kata menggunakan fungsi explode
-        $words = explode(' ', $sentence);
-        $wordCount = count($words);
-
-        $b = echo "Jumlah kata dalam kalimat '$a' adalah $wordCount.";
-    
-        return $b;
-    }
-
-    public function fungsi25() {
-        echo "Ini adalah fungsi fibonanci <br>" . PHP_EOL;
-        $a=10;
-        $sequence = array(0, 1);
-  
-        for ($i = 2; $i < $a; $i++) {
-            $nextNumber = $sequence[$i - 1] + $sequence[$i - 2];
-            $sequence[] = $nextNumber;
-        }
-  
-    return $sequence;
-    }
-
-    public function fungsi26() {
-        echo "Ini adalah fungsi logika <br>" . PHP_EOL;
-
-        $a = true;
-        $b = false;
-        $c = true;
-        $d = false;
-        $e = true;
-        
-        $logika1 = ($a && $b) || ($c && $d);
-        
-        $logika2 = ($a || $b) && ($c || $d);
-        
-        $logika3 = ($a && $b) && !($c || $d);
-        
-        $logika4 = !($a || $b) || ($c && $d);
-        
-        $logika5 = $a || ($b && ($c || $d));
-        
-        $logika6 = $a && ($b || ($c && $d));
-        
-        $logika7 = $a && (!$b || (!$c && $d));
-        
-        $logika8 = ($a || !$b) && ((!$c && $d) || ($e || $a));
-        
-        echo "Hasil Logika 1: " . ($logika1 ? 'true' : 'false') . "\n" .
-         "Hasil Logika 2: " . ($logika2 ? 'true' : 'false') . "\n" .
-         "Hasil Logika 3: " . ($logika3 ? 'true' : 'false') . "\n" .
-         "Hasil Logika 4: " . ($logika4 ? 'true' : 'false') . "\n" .
-         "Hasil Logika 5: " . ($logika5 ? 'true' : 'false') . "\n" .
-         "Hasil Logika 6: " . ($logika6 ? 'true' : 'false') . "\n" .
-         "Hasil Logika 7: " . ($logika7 ? 'true' : 'false') . "\n" .
-         "Hasil Logika 8: " . ($logika8 ? 'true' : 'false') . "\n";
-
-    }
-
-    public function fungsi17() {
-        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
-        $a="AKU";
-        return strlen($a);
-    }
-
-    public function fungsi17() {
-        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
-        $a="AKU";
-        return strlen($a);
-    }
-
-    public function fungsi17() {
-        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
-        $a="AKU";
-        return strlen($a);
-    }
-
-    public function fungsi17() {
-        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
-        $a="AKU";
-        return strlen($a);
-    }
-
-    public function fungsi17() {
-        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
-        $a="AKU";
-        return strlen($a);
-    }
-
-    public function fungsi17() {
-        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
-        $a="AKU";
-        return strlen($a);
-    }
-
-    public function fungsi17() {
-        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
-        $a="AKU";
-        return strlen($a);
-    }
-
-    public function fungsi17() {
-        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
-        $a="AKU";
-        return strlen($a);
-    }
-
-    public function fungsi17() {
-        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
-        $a="AKU";
-        return strlen($a);
-    }
-
-    public function fungsi17() {
-        echo "Ini adalah fungsi hitung karakter <br>" . PHP_EOL;
-        $a="AKU";
-        return strlen($a);
-    }
-
-    // ...
-
-    public function fungsi1991() {
-        echo "Ini adalah fungsi 1991" . PHP_EOL;
-        // Logika unik untuk fungsi 1991
-        // ...
-    }
-
-    public function fungsi1992() {
-        echo "Ini adalah fungsi 1992" . PHP_EOL;
-        // Logika unik untuk fungsi 1992
-        // ...
-    }
-
-    // ...
-
-    public function fungsi2000() {
-        echo "Ini adalah fungsi 2000" . PHP_EOL;
-        // Logika unik untuk fungsi 2000
-        // ...
-    }
-}
-
-$obj = new MyClass();
-
-$obj->fungsi1();
-$obj->fungsi2();
-$obj->fungsi3();
-$obj->fungsi4();
-$obj->fungsi5();
-$obj->fungsi6();
-$obj->fungsi7();
-$obj->fungsi8();
-$obj->fungsi9();
-$obj->fungsi10();
-$obj->fungsi11();
-$obj->fungsi12();
-$obj->fungsi13();
-$obj->fungsi14();
-$obj->fungsi15();
-$obj->fungsi16();
-$obj->fungsi17();
-$obj->fungsi18();
-$obj->fungsi19();
-$obj->fungsi20();
-$obj->fungsi21();
-$obj->fungsi22();
-$obj->fungsi23();
-$obj->fungsi24();
-$obj->fungsi25();
-$obj->fungsi26();
-
-// ...
-
-$obj->fungsi1991();
-$obj->fungsi1992();
-$obj->fungsi2000();
-
-?>
+</html>
